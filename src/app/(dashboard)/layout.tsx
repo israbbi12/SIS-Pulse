@@ -66,9 +66,13 @@ function DashboardShell({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="min-h-screen flex bg-background">
+      {sidebarOpen && (
+        <div className="fixed inset-0 z-40 bg-black/50" onClick={() => setSidebarOpen(false)} />
+      )}
+
       <aside
         className={cn(
-          "fixed inset-y-0 left-0 z-50 w-64 bg-surface-container-low text-on-surface flex flex-col transition-transform duration-200 lg:translate-x-0 lg:static lg:z-auto border-r border-outline-variant",
+          "fixed inset-y-0 left-0 z-50 w-64 bg-surface-container-low text-on-surface flex flex-col transition-transform duration-300 ease-out shadow-xl rounded-r-2xl border-r border-outline-variant",
           sidebarOpen ? "translate-x-0" : "-translate-x-full"
         )}
       >
@@ -80,7 +84,7 @@ function DashboardShell({ children }: { children: React.ReactNode }) {
             <p className="font-semibold text-sm text-on-surface">SIS-Pulse</p>
             <p className="text-xs text-on-surface-variant">Admin Panel</p>
           </div>
-          <Button variant="ghost" size="icon" className="ml-auto lg:hidden text-on-surface-variant" onClick={() => setSidebarOpen(false)}>
+          <Button variant="ghost" size="icon" className="ml-auto text-on-surface-variant" onClick={() => setSidebarOpen(false)}>
             <X className="h-5 w-5" />
           </Button>
         </div>
@@ -105,13 +109,9 @@ function DashboardShell({ children }: { children: React.ReactNode }) {
         </div>
       </aside>
 
-      {sidebarOpen && (
-        <div className="fixed inset-0 z-40 bg-black/50 lg:hidden" onClick={() => setSidebarOpen(false)} />
-      )}
-
       <div className="flex-1 flex flex-col min-w-0">
         <header className="h-16 border-b border-outline-variant bg-surface-container-lowest flex items-center px-4 lg:px-6 gap-4 sticky top-0 z-30">
-          <Button variant="ghost" size="icon" className="lg:hidden text-on-surface-variant" onClick={() => setSidebarOpen(true)}>
+          <Button variant="ghost" size="icon" className="text-on-surface-variant" onClick={() => setSidebarOpen(true)}>
             <Menu className="h-5 w-5" />
           </Button>
           <div className="flex-1" />
