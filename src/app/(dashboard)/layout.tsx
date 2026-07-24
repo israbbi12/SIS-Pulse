@@ -60,24 +60,20 @@ function Sidebar({ onNavClick }: { onNavClick?: () => void }) {
 
 function DashboardShell({ children }: { children: React.ReactNode }) {
   const { user, logout } = useAuth()
-  const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [sidebarOpen, setSidebarOpen] = useState(true)
 
   if (!user) return <PageLoader />
 
   return (
-    <div className="min-h-screen flex bg-background">
-      {sidebarOpen && (
-        <div className="fixed inset-0 z-40 bg-black/50" onClick={() => setSidebarOpen(false)} />
-      )}
-
+    <div className="min-h-screen bg-background">
       <aside
         className={cn(
-          "fixed inset-y-0 left-0 z-50 w-64 bg-surface-container-low text-on-surface flex flex-col transition-transform duration-300 ease-out shadow-xl rounded-r-2xl border-r border-outline-variant",
+          "fixed inset-y-0 left-0 z-50 w-64 bg-surface-container-low text-on-surface flex flex-col transition-transform duration-300 ease-out border-r border-outline-variant",
           sidebarOpen ? "translate-x-0" : "-translate-x-full"
         )}
       >
         <div className="flex items-center gap-3 px-6 h-16 border-b border-outline-variant">
-          <div className="h-9 w-9 rounded-xl bg-primary flex items-center justify-center text-on-primary font-bold text-sm m3-elevation-1">
+          <div className="h-9 w-9 rounded-xl bg-primary flex items-center justify-center text-on-primary font-bold text-sm">
             S
           </div>
           <div>
@@ -109,9 +105,9 @@ function DashboardShell({ children }: { children: React.ReactNode }) {
         </div>
       </aside>
 
-      <div className="flex-1 flex flex-col min-w-0">
+      <div className={cn("flex flex-col min-h-screen transition-all duration-300", sidebarOpen ? "ml-64" : "ml-0")}>
         <header className="h-16 border-b border-outline-variant bg-surface-container-lowest flex items-center px-4 lg:px-6 gap-4 sticky top-0 z-30">
-          <Button variant="ghost" size="icon" className="text-on-surface-variant" onClick={() => setSidebarOpen(true)}>
+          <Button variant="ghost" size="icon" className="text-on-surface-variant" onClick={() => setSidebarOpen(!sidebarOpen)}>
             <Menu className="h-5 w-5" />
           </Button>
           <div className="flex-1" />
