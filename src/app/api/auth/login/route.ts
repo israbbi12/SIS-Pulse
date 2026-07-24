@@ -31,7 +31,7 @@ export async function POST(req: NextRequest) {
     })
 
     return response
-  } catch (e) {
+  } catch {
     return error("Something went wrong", 500)
   }
 }

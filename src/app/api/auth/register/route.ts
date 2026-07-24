@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
     const token = generateToken({ id: user.id, email: user.email, role: user.role, name: user.name })
 
     return success({ token, user: { id: user.id, name: user.name, email: user.email, role: user.role } }, 201)
-  } catch (e) {
+  } catch {
     return error("Something went wrong", 500)
   }
 }

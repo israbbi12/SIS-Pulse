@@ -57,7 +57,7 @@ export async function GET(req: NextRequest) {
         "Content-Disposition": `attachment; filename="testimonial-${student.studentId}.pdf"`,
       },
     })
-  } catch (e) {
+  } catch {
     return error("Failed to generate PDF", 500)
   }
 }

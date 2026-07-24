@@ -9,8 +9,7 @@
     "lint": "next lint",
     "db:generate": "prisma generate",
     "db:push": "prisma db push",
-    "db:seed": "ts-node prisma/seed.ts",
-    "server": "ts-node server/index.ts"
+    "db:seed": "ts-node prisma/seed.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",
