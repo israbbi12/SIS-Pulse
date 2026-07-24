@@ -26,14 +26,14 @@
     --error-container: 4 71% 92%;
     --on-error-container: 3 71% 15%;
 
-    --background: 293 100% 98%;
+    --background: 270 5% 99%;
     --on-background: 264 8% 12%;
 
-    --surface: 293 100% 98%;
+    --surface: 270 5% 99%;
     --on-surface: 264 8% 12%;
-    --surface-dim: 280 13% 86%;
-    --surface-bright: 300 56% 98%;
-    --surface-variant: 280 17% 90%;
+    --surface-dim: 280 8% 93%;
+    --surface-bright: 270 5% 99.5%;
+    --surface-variant: 280 10% 96%;
     --on-surface-variant: 264 7% 29%;
 
     --outline: 270 4% 47%;
@@ -46,10 +46,10 @@
     --shadow: 0 0% 0%;
 
     --surface-container-lowest: 0 0% 100%;
-    --surface-container-low: 278 44% 96%;
-    --surface-container: 276 38% 95%;
-    --surface-container-high: 276 25% 92%;
-    --surface-container-highest: 280 17% 90%;
+    --surface-container-low: 270 5% 99%;
+    --surface-container: 270 4% 98%;
+    --surface-container-high: 270 4% 97%;
+    --surface-container-highest: 270 3% 96%;
 
     --primary-fixed: 259 100% 93%;
     --primary-fixed-dim: 257 100% 87%;
@@ -66,13 +66,13 @@
     --on-tertiary-fixed: 338 48% 13%;
     --on-tertiary-fixed-variant: 341 25% 31%;
 
-    --muted: 278 44% 96%;
+    --muted: 270 5% 97%;
     --muted-foreground: 264 7% 29%;
     --accent: 254 68% 93%;
     --accent-foreground: 256 28% 13%;
     --popover: 0 0% 100%;
     --popover-foreground: 264 8% 12%;
-    --card: 293 100% 98%;
+    --card: 270 5% 99%;
     --card-foreground: 264 8% 12%;
     --border: 270 4% 47%;
     --input: 270 4% 47%;
