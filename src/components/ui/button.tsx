@@ -4,26 +4,29 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
+  "inline-flex items-center justify-center whitespace-nowrap text-label-lg font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 select-none",
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary/90",
-        destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90",
-        outline: "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
-        secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
-        ghost: "hover:bg-accent hover:text-accent-foreground",
-        link: "text-primary underline-offset-4 hover:underline",
+        filled: "bg-primary text-on-primary hover:shadow-sm active:brightness-90",
+        tonal: "bg-secondary-container text-on-secondary-container hover:shadow-sm active:brightness-95",
+        outlined: "border border-outline bg-transparent text-on-surface hover:bg-surface-container-high",
+        outline: "border border-outline bg-transparent text-on-surface hover:bg-surface-container-high",
+        text: "bg-transparent text-primary hover:bg-primary-container/40",
+        elevated: "bg-surface-container-low text-on-surface shadow-sm hover:shadow-md",
+        destructive: "bg-error text-on-error hover:brightness-110 active:brightness-90",
+        ghost: "bg-transparent text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface",
+        link: "bg-transparent text-primary underline-offset-4 hover:underline p-0 h-auto",
       },
       size: {
-        default: "h-10 px-4 py-2",
-        sm: "h-9 rounded-md px-3",
-        lg: "h-11 rounded-md px-8",
-        icon: "h-10 w-10",
+        sm: "h-8 rounded-full px-4 text-label-md gap-1.5",
+        default: "h-10 rounded-full px-6 text-label-lg gap-2",
+        lg: "h-12 rounded-full px-8 text-label-lg gap-2",
+        icon: "h-10 w-10 rounded-full",
       },
     },
     defaultVariants: {
-      variant: "default",
+      variant: "filled",
       size: "default",
     },
   }
