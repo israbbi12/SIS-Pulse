@@ -4,56 +4,137 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --radius: 0.75rem;
+
     --primary: 221.2 83.2% 53.3%;
-    --primary-foreground: 210 40% 98%;
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
+    --on-primary: 210 40% 98%;
+    --primary-container: 214.3 94% 90%;
+    --on-primary-container: 221 85% 20%;
+
+    --secondary: 260 40% 50%;
+    --on-secondary: 0 0% 100%;
+    --secondary-container: 255 60% 92%;
+    --on-secondary-container: 260 40% 15%;
+
+    --tertiary: 170 60% 40%;
+    --on-tertiary: 0 0% 100%;
+    --tertiary-container: 165 70% 90%;
+    --on-tertiary-container: 170 80% 15%;
+
+    --error: 0 84.2% 60.2%;
+    --on-error: 0 0% 100%;
+    --error-container: 0 100% 92%;
+    --on-error-container: 0 80% 25%;
+
+    --background: 0 0% 99%;
+    --on-background: 222.2 84% 4.9%;
+
+    --surface: 0 0% 99%;
+    --on-surface: 222.2 84% 4.9%;
+    --surface-variant: 220 20% 95%;
+    --on-surface-variant: 220 10% 40%;
+
+    --outline: 220 10% 75%;
+    --outline-variant: 220 15% 88%;
+
+    --inverse-surface: 222.2 84% 4.9%;
+    --inverse-on-surface: 220 10% 92%;
+    --inverse-primary: 217.2 91.2% 59.8%;
+
+    --shadow: 0 0% 0%;
+
+    --surface-container-lowest: 0 0% 100%;
+    --surface-container-low: 220 15% 97%;
+    --surface-container: 220 12% 94%;
+    --surface-container-high: 220 10% 90%;
+    --surface-container-highest: 220 8% 86%;
+
+    --muted: 220 20% 95%;
+    --muted-foreground: 220 10% 40%;
+    --accent: 255 60% 92%;
+    --accent-foreground: 260 40% 15%;
+    --popover: 0 0% 99%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --card: 0 0% 99%;
+    --card-foreground: 222.2 84% 4.9%;
+    --border: 220 10% 75%;
+    --input: 220 10% 75%;
     --ring: 221.2 83.2% 53.3%;
-    --radius: 0.5rem;
-    --sidebar-background: 222.2 84% 4.9%;
-    --sidebar-foreground: 210 40% 98%;
+
+    --sidebar-background: 220 12% 94%;
+    --sidebar-foreground: 222.2 84% 4.9%;
     --sidebar-primary: 221.2 83.2% 53.3%;
     --sidebar-primary-foreground: 210 40% 98%;
-    --sidebar-accent: 217.2 32.6% 17.5%;
-    --sidebar-accent-foreground: 210 40% 98%;
-    --sidebar-border: 217.2 32.6% 17.5%;
+    --sidebar-accent: 220 20% 88%;
+    --sidebar-accent-foreground: 222.2 84% 4.9%;
+    --sidebar-border: 220 15% 82%;
     --sidebar-ring: 221.2 83.2% 53.3%;
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
     --primary: 217.2 91.2% 59.8%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 224.3 76.3% 48%;
+    --on-primary: 221 85% 20%;
+    --primary-container: 221 50% 25%;
+    --on-primary-container: 214.3 94% 90%;
+
+    --secondary: 260 40% 70%;
+    --on-secondary: 260 40% 15%;
+    --secondary-container: 260 40% 25%;
+    --on-secondary-container: 255 60% 92%;
+
+    --tertiary: 170 60% 60%;
+    --on-tertiary: 170 80% 15%;
+    --tertiary-container: 170 50% 20%;
+    --on-tertiary-container: 165 70% 90%;
+
+    --error: 0 70% 65%;
+    --on-error: 0 80% 25%;
+    --error-container: 0 60% 25%;
+    --on-error-container: 0 100% 92%;
+
+    --background: 240 10% 8%;
+    --on-background: 220 10% 92%;
+
+    --surface: 240 10% 8%;
+    --on-surface: 220 10% 92%;
+    --surface-variant: 240 8% 16%;
+    --on-surface-variant: 220 5% 65%;
+
+    --outline: 240 5% 45%;
+    --outline-variant: 240 5% 25%;
+
+    --inverse-surface: 0 0% 99%;
+    --inverse-on-surface: 222.2 84% 4.9%;
+    --inverse-primary: 221.2 83.2% 53.3%;
+
+    --shadow: 0 0% 100%;
+
+    --surface-container-lowest: 240 10% 6%;
+    --surface-container-low: 240 9% 10%;
+    --surface-container: 240 8% 13%;
+    --surface-container-high: 240 7% 16%;
+    --surface-container-highest: 240 6% 20%;
+
+    --muted: 240 8% 16%;
+    --muted-foreground: 220 5% 65%;
+    --accent: 260 40% 25%;
+    --accent-foreground: 255 60% 92%;
+    --popover: 240 10% 8%;
+    --popover-foreground: 220 10% 92%;
+    --card: 240 10% 8%;
+    --card-foreground: 220 10% 92%;
+    --border: 240 5% 45%;
+    --input: 240 5% 45%;
+    --ring: 217.2 91.2% 59.8%;
+
+    --sidebar-background: 240 9% 10%;
+    --sidebar-foreground: 220 10% 92%;
+    --sidebar-primary: 217.2 91.2% 59.8%;
+    --sidebar-primary-foreground: 221 85% 20%;
+    --sidebar-accent: 240 7% 16%;
+    --sidebar-accent-foreground: 220 10% 92%;
+    --sidebar-border: 240 5% 25%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
   }
 }
 
@@ -64,4 +145,20 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+@layer utilities {
+  .m3-elevation-0 { box-shadow: none; }
+  .m3-elevation-1 { box-shadow: 0 1px 3px 0 hsl(var(--shadow) / 0.12), 0 1px 2px 0 hsl(var(--shadow) / 0.08); }
+  .m3-elevation-2 { box-shadow: 0 2px 6px 0 hsl(var(--shadow) / 0.12), 0 1px 3px 0 hsl(var(--shadow) / 0.08); }
+  .m3-elevation-3 { box-shadow: 0 4px 12px 0 hsl(var(--shadow) / 0.15), 0 2px 4px 0 hsl(var(--shadow) / 0.08); }
+  .m3-elevation-4 { box-shadow: 0 6px 20px 0 hsl(var(--shadow) / 0.15), 0 3px 6px 0 hsl(var(--shadow) / 0.10); }
+  .m3-elevation-5 { box-shadow: 0 8px 30px 0 hsl(var(--shadow) / 0.18), 0 4px 8px 0 hsl(var(--shadow) / 0.10); }
+
+  .m3-shape-xs { border-radius: 0.25rem; }
+  .m3-shape-sm { border-radius: 0.5rem; }
+  .m3-shape-md { border-radius: 0.75rem; }
+  .m3-shape-lg { border-radius: 1rem; }
+  .m3-shape-xl { border-radius: 1.5rem; }
+  .m3-shape-full { border-radius: 9999px; }
 }
