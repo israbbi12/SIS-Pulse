@@ -1,7 +1,6 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { useRouter, usePathname } from "next/navigation"
 import { createContext, useContext } from "react"
 import { PageLoader } from "@/components/ui/loader"
 
@@ -27,24 +26,22 @@ export function useAuth() {
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null)
   const [loading, setLoading] = useState(true)
-  const router = useRouter()
-  const pathname = usePathname()
 
   useEffect(() => {
     fetch("/api/auth/me")
       .then((res) => res.json())
       .then((json) => {
         if (json.success) setUser(json.data)
-        else router.push("/login")
+        else window.location.href = "/login"
       })
-      .catch(() => router.push("/login"))
+      .catch(() => window.location.href = "/login")
       .finally(() => setLoading(false))
-  }, [pathname, router])
+  }, [])
 
   function logout() {
     fetch("/api/auth/logout", { method: "POST" }).then(() => {
       setUser(null)
-      router.push("/login")
+      window.location.href = "/login"
     })
   }
 

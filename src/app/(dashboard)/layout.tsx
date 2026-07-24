@@ -13,7 +13,6 @@ import {
   ClipboardCheck,
   LogOut,
   Menu,
-  X,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
@@ -30,28 +29,34 @@ const navItems = [
   { href: "/results", label: "Results", icon: ClipboardCheck },
 ]
 
-function Sidebar({ onNavClick }: { onNavClick?: () => void }) {
+function Sidebar({ collapsed }: { collapsed: boolean }) {
   const pathname = usePathname()
   return (
-    <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
+    <nav className="flex-1 px-3 py-4 space-y-1">
       {navItems.map((item) => {
         const isActive = pathname.startsWith(item.href)
         const Icon = item.icon
         return (
-          <Link
-            key={item.href}
-            href={item.href}
-            onClick={onNavClick}
-            className={cn(
-              "flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all",
-              isActive
-                ? "bg-primary text-on-primary shadow-sm"
-                : "text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high"
+          <div key={item.href} className="group relative flex justify-center">
+            <Link
+              href={item.href}
+              className={cn(
+                "flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all",
+                collapsed ? "justify-center w-10 h-10 p-0" : "w-full",
+                isActive
+                  ? "bg-primary text-on-primary shadow-sm"
+                  : "text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high"
+              )}
+            >
+              <Icon className="h-4.5 w-4.5 shrink-0" />
+              {!collapsed && item.label}
+            </Link>
+            {collapsed && (
+              <div className="absolute left-full ml-2 top-1/2 -translate-y-1/2 px-2 py-1 rounded-md bg-inverse-surface text-inverse-on-surface text-xs whitespace-nowrap opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50 pointer-events-none shadow-lg">
+                {item.label}
+              </div>
             )}
-          >
-            <Icon className="h-4.5 w-4.5" />
-            {item.label}
-          </Link>
+          </div>
         )
       })}
     </nav>
@@ -68,63 +73,62 @@ function DashboardShell({ children }: { children: React.ReactNode }) {
     <div className="min-h-screen bg-background">
       <aside
         className={cn(
-          "fixed inset-y-0 left-0 z-50 w-64 bg-surface-container-low text-on-surface flex flex-col transition-transform duration-300 ease-out border-r border-outline-variant",
-          sidebarOpen ? "translate-x-0" : "-translate-x-full"
+          "fixed inset-y-0 left-0 z-50 bg-surface-container-low text-on-surface flex flex-col transition-all duration-300 ease-out",
+          sidebarOpen ? "w-64" : "w-16"
         )}
       >
-        <div className="flex items-center gap-3 px-6 h-16 border-b border-outline-variant">
-          <div className="h-9 w-9 rounded-xl bg-primary flex items-center justify-center text-on-primary font-bold text-sm">
+        <div className={cn("flex items-center h-16", sidebarOpen ? "gap-3 px-6" : "justify-center px-2")}>
+          <div className="h-9 w-9 rounded-xl bg-primary flex items-center justify-center text-on-primary font-bold text-sm shrink-0">
             S
           </div>
-          <div>
-            <p className="font-semibold text-sm text-on-surface">SIS-Pulse</p>
-            <p className="text-xs text-on-surface-variant">Admin Panel</p>
-          </div>
-          <Button variant="ghost" size="icon" className="ml-auto text-on-surface-variant" onClick={() => setSidebarOpen(false)}>
-            <X className="h-5 w-5" />
-          </Button>
+          {sidebarOpen && (
+            <>
+              <div>
+                <p className="font-semibold text-sm text-on-surface">SIS-Pulse</p>
+                <p className="text-xs text-on-surface-variant">Admin Panel</p>
+              </div>
+            </>
+          )}
         </div>
 
-        <Sidebar onNavClick={() => setSidebarOpen(false)} />
+        <Sidebar collapsed={!sidebarOpen} />
 
-        <div className="p-3 border-t border-outline-variant">
-          <div className="flex items-center gap-3 px-3 py-2">
-            <Avatar className="h-8 w-8">
+        <div className={cn("p-3", sidebarOpen ? "" : "flex justify-center")}>
+          <div className={cn("flex items-center gap-3", sidebarOpen ? "px-3 py-2" : "justify-center")}>
+            <Avatar className="h-8 w-8 shrink-0">
               <AvatarFallback className="text-xs bg-primary-container text-on-primary-container">
                 {user.name?.charAt(0)?.toUpperCase()}
               </AvatarFallback>
             </Avatar>
-            <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium truncate text-on-surface">{user.name}</p>
-              <p className="text-xs text-on-surface-variant truncate capitalize">{user.role?.toLowerCase()}</p>
-            </div>
-            <Button variant="ghost" size="icon" className="text-on-surface-variant hover:text-on-surface" onClick={logout}>
-              <LogOut className="h-4 w-4" />
-            </Button>
+            {sidebarOpen && (
+              <>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium truncate text-on-surface">{user.name}</p>
+                  <p className="text-xs text-on-surface-variant truncate capitalize">{user.role?.toLowerCase()}</p>
+                </div>
+                <Button variant="ghost" size="icon" className="text-on-surface-variant hover:text-on-surface shrink-0" onClick={logout}>
+                  <LogOut className="h-4 w-4" />
+                </Button>
+              </>
+            )}
           </div>
         </div>
       </aside>
 
-      <div className={cn("flex flex-col min-h-screen transition-all duration-300", sidebarOpen ? "ml-64" : "ml-0")}>
-        <header className="h-16 border-b border-outline-variant bg-surface-container-lowest flex items-center px-4 lg:px-6 gap-4 sticky top-0 z-30">
-          <Button variant="ghost" size="icon" className="text-on-surface-variant" onClick={() => setSidebarOpen(!sidebarOpen)}>
-            <Menu className="h-5 w-5" />
-          </Button>
-          <div className="flex-1" />
+      <div className={cn("flex flex-col min-h-screen transition-all duration-300", sidebarOpen ? "ml-64" : "ml-16")}>
+        <Button variant="ghost" size="icon" className={cn("fixed top-3 z-40 text-on-surface-variant transition-all duration-300", sidebarOpen ? "left-[264px]" : "left-[72px]")} onClick={() => setSidebarOpen(!sidebarOpen)}>
+          <Menu className="h-5 w-5" />
+        </Button>
+        <div className="fixed top-3 right-4 z-40">
           <ThemeToggle />
-          <div className="flex items-center gap-3 pl-2 border-l border-outline-variant">
-            <Avatar className="h-8 w-8">
-              <AvatarFallback className="text-xs bg-primary-container text-on-primary-container">
-                {user.name?.charAt(0)?.toUpperCase()}
-              </AvatarFallback>
-            </Avatar>
-            <div className="hidden sm:block">
-              <p className="text-sm font-medium text-on-surface">{user.name}</p>
-              <p className="text-xs text-on-surface-variant capitalize">{user.role?.toLowerCase()}</p>
+        </div>
+        <main className="flex-1 overflow-auto">
+          <div className="p-4 lg:p-6 pt-20 max-w-7xl mx-auto">
+            <div className="rounded-2xl bg-surface-container-lowest border border-outline-variant p-4 lg:p-6 shadow-sm">
+              {children}
             </div>
           </div>
-        </header>
-        <main className="flex-1 p-4 lg:p-6 overflow-auto">{children}</main>
+        </main>
       </div>
     </div>
   )
