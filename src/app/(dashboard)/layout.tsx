@@ -73,7 +73,7 @@ function DashboardShell({ children }: { children: React.ReactNode }) {
     <div className="min-h-screen bg-background">
       <aside
         className={cn(
-          "fixed inset-y-0 left-0 z-50 bg-surface-container-low text-on-surface flex flex-col transition-all duration-300 ease-out",
+          "fixed inset-y-0 left-0 z-50 bg-[#FCFCFD] text-on-surface flex flex-col transition-all duration-300 ease-out",
           sidebarOpen ? "w-64" : "w-16"
         )}
       >
