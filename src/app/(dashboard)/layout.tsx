@@ -123,7 +123,8 @@ function DashboardShell({ children }: { children: React.ReactNode }) {
           <ThemeToggle />
         </div>
         <main className="flex-1 overflow-auto">
-          <div className="p-4 lg:p-6 pt-20 max-w-7xl mx-auto">
+          <div className="max-w-7xl mx-auto p-4 lg:p-6">
+            <div className="h-14" />
             <div className="rounded-2xl bg-surface-container-lowest border border-outline-variant p-4 lg:p-6 shadow-sm">
               {children}
             </div>
