@@ -19,6 +19,7 @@ import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { useState } from "react"
 import { PageLoader } from "@/components/ui/loader"
+import { ThemeToggle } from "@/components/theme-toggle"
 
 const navItems = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
@@ -42,10 +43,10 @@ function Sidebar({ onNavClick }: { onNavClick?: () => void }) {
             href={item.href}
             onClick={onNavClick}
             className={cn(
-              "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all",
+              "flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all",
               isActive
-                ? "bg-sidebar-primary text-sidebar-primary-foreground shadow-md"
-                : "text-sidebar-foreground/70 hover:text-sidebar-foreground hover:bg-sidebar-accent"
+                ? "bg-primary text-on-primary shadow-sm"
+                : "text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high"
             )}
           >
             <Icon className="h-4.5 w-4.5" />
@@ -64,40 +65,40 @@ function DashboardShell({ children }: { children: React.ReactNode }) {
   if (!user) return <PageLoader />
 
   return (
-    <div className="min-h-screen flex">
+    <div className="min-h-screen flex bg-background">
       <aside
         className={cn(
-          "fixed inset-y-0 left-0 z-50 w-64 bg-sidebar text-sidebar-foreground flex flex-col transition-transform duration-200 lg:translate-x-0 lg:static lg:z-auto",
+          "fixed inset-y-0 left-0 z-50 w-64 bg-surface-container-low text-on-surface flex flex-col transition-transform duration-200 lg:translate-x-0 lg:static lg:z-auto border-r border-outline-variant",
           sidebarOpen ? "translate-x-0" : "-translate-x-full"
         )}
       >
-        <div className="flex items-center gap-3 px-6 h-16 border-b border-sidebar-border">
-          <div className="h-9 w-9 rounded-lg bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white font-bold text-sm">
+        <div className="flex items-center gap-3 px-6 h-16 border-b border-outline-variant">
+          <div className="h-9 w-9 rounded-xl bg-primary flex items-center justify-center text-on-primary font-bold text-sm m3-elevation-1">
             S
           </div>
           <div>
-            <p className="font-semibold text-sm">SIS-Pulse</p>
-            <p className="text-xs text-sidebar-foreground/60">Admin Panel</p>
+            <p className="font-semibold text-sm text-on-surface">SIS-Pulse</p>
+            <p className="text-xs text-on-surface-variant">Admin Panel</p>
           </div>
-          <Button variant="ghost" size="icon" className="ml-auto lg:hidden text-sidebar-foreground" onClick={() => setSidebarOpen(false)}>
+          <Button variant="ghost" size="icon" className="ml-auto lg:hidden text-on-surface-variant" onClick={() => setSidebarOpen(false)}>
             <X className="h-5 w-5" />
           </Button>
         </div>
 
         <Sidebar onNavClick={() => setSidebarOpen(false)} />
 
-        <div className="p-3 border-t border-sidebar-border">
+        <div className="p-3 border-t border-outline-variant">
           <div className="flex items-center gap-3 px-3 py-2">
             <Avatar className="h-8 w-8">
-              <AvatarFallback className="text-xs bg-sidebar-accent text-sidebar-accent-foreground">
+              <AvatarFallback className="text-xs bg-primary-container text-on-primary-container">
                 {user.name?.charAt(0)?.toUpperCase()}
               </AvatarFallback>
             </Avatar>
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium truncate">{user.name}</p>
-              <p className="text-xs text-sidebar-foreground/60 truncate capitalize">{user.role?.toLowerCase()}</p>
+              <p className="text-sm font-medium truncate text-on-surface">{user.name}</p>
+              <p className="text-xs text-on-surface-variant truncate capitalize">{user.role?.toLowerCase()}</p>
             </div>
-            <Button variant="ghost" size="icon" className="text-sidebar-foreground/60 hover:text-sidebar-foreground" onClick={logout}>
+            <Button variant="ghost" size="icon" className="text-on-surface-variant hover:text-on-surface" onClick={logout}>
               <LogOut className="h-4 w-4" />
             </Button>
           </div>
@@ -109,20 +110,21 @@ function DashboardShell({ children }: { children: React.ReactNode }) {
       )}
 
       <div className="flex-1 flex flex-col min-w-0">
-        <header className="h-16 border-b bg-background flex items-center px-4 lg:px-6 gap-4 sticky top-0 z-30">
-          <Button variant="ghost" size="icon" className="lg:hidden" onClick={() => setSidebarOpen(true)}>
+        <header className="h-16 border-b border-outline-variant bg-surface-container-lowest flex items-center px-4 lg:px-6 gap-4 sticky top-0 z-30">
+          <Button variant="ghost" size="icon" className="lg:hidden text-on-surface-variant" onClick={() => setSidebarOpen(true)}>
             <Menu className="h-5 w-5" />
           </Button>
           <div className="flex-1" />
-          <div className="flex items-center gap-3">
+          <ThemeToggle />
+          <div className="flex items-center gap-3 pl-2 border-l border-outline-variant">
             <Avatar className="h-8 w-8">
-              <AvatarFallback className="text-xs bg-primary text-primary-foreground">
+              <AvatarFallback className="text-xs bg-primary-container text-on-primary-container">
                 {user.name?.charAt(0)?.toUpperCase()}
               </AvatarFallback>
             </Avatar>
             <div className="hidden sm:block">
-              <p className="text-sm font-medium">{user.name}</p>
-              <p className="text-xs text-muted-foreground capitalize">{user.role?.toLowerCase()}</p>
+              <p className="text-sm font-medium text-on-surface">{user.name}</p>
+              <p className="text-xs text-on-surface-variant capitalize">{user.role?.toLowerCase()}</p>
             </div>
           </div>
         </header>
