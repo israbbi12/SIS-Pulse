@@ -1,17 +1,18 @@
-import { prisma } from "@/lib/db"
 import { NextRequest } from "next/server"
 import { error } from "@/lib/api-response"
+import { getCurrentUser } from "@/lib/auth"
+import { GoogleDB } from "@/lib/google-db"
 
 export async function GET(req: NextRequest) {
   try {
+    const user = await getCurrentUser()
+    if (!user) return error("Unauthorized", 401)
     const { searchParams } = new URL(req.url)
     const studentId = searchParams.get("studentId")
     if (!studentId) return error("studentId required")
 
-    const student = await prisma.student.findUnique({
-      where: { id: studentId },
-      include: { course: true, batch: true },
-    })
+    const db = new GoogleDB(user.id)
+    const student = await db.getById("Students", studentId)
     if (!student) return error("Student not found", 404)
 
     const jsPDF = (await import("jspdf")).default
@@ -20,7 +21,6 @@ export async function GET(req: NextRequest) {
     doc.setDrawColor(41, 128, 185)
     doc.setFillColor(41, 128, 185)
     doc.rect(0, 0, 210, 50, "F")
-
     doc.setTextColor(255, 255, 255)
     doc.setFontSize(24)
     doc.setFont("helvetica", "bold")
@@ -38,8 +38,8 @@ export async function GET(req: NextRequest) {
 
     const details = [
       ["Student ID", student.studentId],
-      ["Course", student.course?.name || "N/A"],
-      ["Batch", student.batch?.name || "N/A"],
+      ["Course", student.course?.name || student.courseId || "N/A"],
+      ["Batch", student.batch?.name || student.batchId || "N/A"],
       ["Phone", student.phone || "N/A"],
       ["Email", student.email || "N/A"],
       ["Guardian", student.guardianName || "N/A"],
@@ -70,7 +70,7 @@ export async function GET(req: NextRequest) {
         "Content-Disposition": `attachment; filename="idcard-${student.studentId}.pdf"`,
       },
     })
-  } catch {
+  } catch (e) {
     return error("Failed to generate PDF", 500)
   }
 }

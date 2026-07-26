@@ -1,26 +1,33 @@
-import { prisma } from "@/lib/db"
 import { success, error } from "@/lib/api-response"
 import { NextRequest } from "next/server"
+import { getCurrentUser } from "@/lib/auth"
+import { GoogleDB } from "@/lib/google-db"
 
 export async function GET(req: NextRequest) {
-  const { searchParams } = new URL(req.url)
-  const studentId = searchParams.get("studentId")
-  const batchId = searchParams.get("batchId")
+  try {
+    const user = await getCurrentUser()
+    if (!user) return error("Unauthorized", 401)
+    const { searchParams } = new URL(req.url)
+    const studentId = searchParams.get("studentId")
+    const batchId_param = searchParams.get("batchId")
 
-  const where: any = {}
-  if (studentId) where.studentId = studentId
-  if (batchId) where.batchId = batchId
+    const db = new GoogleDB(user.id)
+    let results = await db.getAll("Results")
 
-  const results = await prisma.result.findMany({
-    where,
-    orderBy: { createdAt: "desc" },
-    include: { student: true, batch: { include: { course: true } } },
-  })
-  return success(results)
+    if (studentId) results = results.filter((r: any) => r.studentId === studentId)
+    if (batchId_param) results = results.filter((r: any) => r.batchId === batchId_param)
+
+    return success(results)
+  } catch {
+    return error("Something went wrong", 500)
+  }
 }
 
 export async function POST(req: NextRequest) {
   try {
+    const user = await getCurrentUser()
+    if (!user) return error("Unauthorized", 401)
+    const db = new GoogleDB(user.id)
     const data = await req.json()
     if (!data.studentId || !data.subject || data.marks === undefined) {
       return error("Student, subject, and marks are required")
@@ -35,21 +42,18 @@ export async function POST(req: NextRequest) {
     else if (percentage >= 50) grade = "B"
     else if (percentage >= 40) grade = "C"
 
-    const result = await prisma.result.create({
-      data: {
-        studentId: data.studentId,
-        batchId: data.batchId,
-        subject: data.subject,
-        marks: parseFloat(data.marks),
-        totalMarks,
-        grade,
-        semester: data.semester,
-      },
-      include: { student: true, batch: { include: { course: true } } },
+    const result = await db.create("Results", {
+      studentId: data.studentId,
+      batchId: data.batchId,
+      subject: data.subject,
+      marks: parseFloat(data.marks),
+      totalMarks,
+      grade,
+      semester: data.semester,
     })
+
     return success(result, 201)
-  } catch (e) {
-    console.error(e)
+  } catch {
     return error("Something went wrong", 500)
   }
 }

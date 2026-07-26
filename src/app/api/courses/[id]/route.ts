@@ -1,18 +1,23 @@
-import { prisma } from "@/lib/db"
 import { success, error } from "@/lib/api-response"
 import { NextRequest } from "next/server"
+import { getCurrentUser } from "@/lib/auth"
+import { GoogleDB } from "@/lib/google-db"
 
 export async function GET(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  const { id } = await params
-  const course = await prisma.course.findUnique({
-    where: { id },
-    include: { batches: { where: { active: true } } },
-  })
-  if (!course) return error("Not found", 404)
-  return success(course)
+  try {
+    const user = await getCurrentUser()
+    if (!user) return error("Unauthorized", 401)
+    const { id } = await params
+    const db = new GoogleDB(user.id)
+    const course = await db.getById("Courses", id)
+    if (!course) return error("Not found", 404)
+    return success(course)
+  } catch {
+    return error("Something went wrong", 500)
+  }
 }
 
 export async function PUT(
@@ -20,12 +25,16 @@ export async function PUT(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const user = await getCurrentUser()
+    if (!user) return error("Unauthorized", 401)
     const { id } = await params
-    const { name, code, description, duration, fee, active } = await req.json()
-    const course = await prisma.course.update({
-      where: { id },
-      data: { name, code, description, duration, fee: fee ? parseFloat(fee) : null, active },
+    const db = new GoogleDB(user.id)
+    const data = await req.json()
+    const course = await db.update("Courses", id, {
+      name: data.name, code: data.code, description: data.description,
+      duration: data.duration, fee: data.fee ? parseFloat(data.fee) : null, active: data.active,
     })
+    if (!course) return error("Not found", 404)
     return success(course)
   } catch {
     return error("Something went wrong", 500)
@@ -37,11 +46,12 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const user = await getCurrentUser()
+    if (!user) return error("Unauthorized", 401)
     const { id } = await params
-    await prisma.course.update({
-      where: { id },
-      data: { active: false },
-    })
+    const db = new GoogleDB(user.id)
+    const deleted = await db.update("Courses", id, { active: false })
+    if (!deleted) return error("Not found", 404)
     return success({ deleted: true })
   } catch {
     return error("Something went wrong", 500)
